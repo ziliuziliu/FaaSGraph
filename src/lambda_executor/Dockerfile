@@ -1,0 +1,19 @@
+FROM golang:1.18-alpine
+LABEL label="graph"
+USER root
+WORKDIR /lambda_executor
+COPY . .
+EXPOSE 5000
+EXPOSE 5001
+EXPOSE 5002
+EXPOSE 5003
+EXPOSE 5004
+EXPOSE 5005
+EXPOSE 5006
+EXPOSE 5007
+EXPOSE 5008
+EXPOSE 5009
+EXPOSE 5010
+EXPOSE 5011
+RUN go env -w GOPROXY=https://goproxy.cn,direct
+RUN go mod tidy
