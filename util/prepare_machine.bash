@@ -15,11 +15,11 @@ sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 echo "==========build image=========="
 cd FaaSGraph/src/lambda_executor
-docker build -t graph_base .
+sudo docker build -t graph_base .
 cd ../../app/graph
-python3 build_app.py
+sudo python3 build_app.py
 cd ../../src/graph_coordinator
-docker build -t graph-coordinator .
+sudo docker build -t graph-coordinator .
 echo "==========install python package=========="
 sudo apt install -y python3-pip
 sudo pip3 install gevent pandas

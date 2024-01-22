@@ -1,7 +1,7 @@
 {
-    "CONTROLLER":"172.31.19.146",
+    "CONTROLLER":"172.31.21.57",
     "WORKER":[
-        "172.31.19.146"
+        "172.31.21.57"
     ],
     "MAX_SLOT_PER_NODE":24,
     "GRAPH":{

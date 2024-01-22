@@ -1,5 +1,7 @@
 # FaaSGraph
 
+[![Static Badge](https://img.shields.io/badge/Organization_Website-EPCC-purple)](http://epcc.sjtu.edu.cn)
+
 ## Introduction
 
 FaaSGraph is a scalable, efficient and cost-effective graph processing framework supported by serverless computing. It serves as a graph-as-a-service solution targeted at cloud providers.
@@ -20,7 +22,7 @@ In every host, clone the code in $HOME directory, enter this project and run:
 
 ```
     cd util
-    sudo ./prepare_machine.bash
+    ./prepare_machine.bash
 ```
 This will install golang, docker, python package and build necessary images.
 
@@ -170,7 +172,7 @@ cd experiment
 sudo python3 run.py
 ```
 
-This script reproduces the performance metrics presented in Table 3 and Figure 7 of the FaaSGraph paper (latency breakdown of FaaSGraph). All cases are runnable in a single node. It initiates the faas_controller server and local_manager server, then invokes graph processing queries using a variety of datasets (amazon, livejournal, twitter) and graph applications (bfs, cc, pr, sssp). The anticipated outcome is stored in the "experiment/expected_result" directory. Please note that IO performance are influenced by the choice of storage (local file system or NAS), leading to potential latency variations.
+This will take roughly an hour. This script reproduces the performance metrics presented in Table 3 and Figure 7 of the FaaSGraph paper (latency breakdown of FaaSGraph). All cases are runnable in a single node. It initiates the faas_controller server and local_manager server, then invokes graph processing queries using a variety of datasets (amazon, livejournal, twitter) and graph applications (bfs, cc, pr, sssp). The anticipated outcome is stored in the "experiment/expected_result" directory. Please note that IO performance are influenced by the choice of storage (local file system or NAS), leading to potential latency variations.
 
 ## Distributed Deployment
 
