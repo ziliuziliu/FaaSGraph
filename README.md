@@ -195,6 +195,7 @@ Unfortunately, we are unable to disclose additional details regarding the query 
 
 ## Cite
 
+```
 @inproceedings{liu2024faasgraph,
   title={FaaSGraph: Enabling Scalable, Efficient, and Cost-Effective Graph Processing with Serverless Computing},
   author={Liu, Yushi and Sun, Shixuan and Li, Zijun and Chen, Quan and Gao, Sen and He, Bingsheng and Li, Chao and Guo, Minyi},
@@ -202,3 +203,4 @@ Unfortunately, we are unable to disclose additional details regarding the query 
   pages={385--400},
   year={2024}
 }
+```
