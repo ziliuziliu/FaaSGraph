@@ -53,12 +53,16 @@ func NewGraphRunner(graph string, ip string, port int32, app string, function st
 	return r
 }
 
-func (r *GraphRunner) pushVertexVals(wg *sync.WaitGroup, reader io.Reader, requestId string, remoteAddr string, startNode int32, graph *graphutil.Graph) {
+func (r *GraphRunner) pushVertexVals(wg *sync.WaitGroup, reader io.Reader, requestId string, remoteAddr string, startNode int32, graph *graphutil.Graph, load_mem bool) {
 	pushUrl := fmt.Sprintf("http://%s/set_vertex_info", remoteAddr)
 	req, _ := http.NewRequest("POST", pushUrl, reader)
 	req.Header.Add("Request-Id", requestId)
 	req.Header.Add("Start-Node", strconv.Itoa(int(startNode)))
-	req.Header.Add("Aggregate-Op", graph.GetAggregateOp())
+	if load_mem {
+		req.Header.Add("Aggregate-Op", "")
+	} else {
+		req.Header.Add("Aggregate-Op", graph.GetAggregateOp())
+	}
 	req.Header.Add("Tag", strconv.Itoa(graphcalc.VERTEX_ARRAY_TAG_NEW))
 	rep, _ := http.DefaultClient.Do(req)
 	io.Copy(io.Discard, rep.Body)
@@ -66,7 +70,7 @@ func (r *GraphRunner) pushVertexVals(wg *sync.WaitGroup, reader io.Reader, reque
 	wg.Done()
 }
 
-func (r *GraphRunner) createWriters(wg *sync.WaitGroup, requestId string, graph *graphutil.Graph) []*io.PipeWriter {
+func (r *GraphRunner) createWriters(wg *sync.WaitGroup, requestId string, graph *graphutil.Graph, load_mem bool) []*io.PipeWriter {
 	var writers []*io.PipeWriter
 	if r.shareMemory {
 		writers = make([]*io.PipeWriter, 0, len(r.workerIPList)-1)
@@ -75,7 +79,7 @@ func (r *GraphRunner) createWriters(wg *sync.WaitGroup, requestId string, graph 
 				reader, writer := io.Pipe()
 				writers = append(writers, writer)
 				wg.Add(1)
-				go r.pushVertexVals(wg, reader, requestId, workerIP+":20000", 0, graph)
+				go r.pushVertexVals(wg, reader, requestId, workerIP+":20000", 0, graph, load_mem)
 			}
 		}
 	} else {
@@ -85,7 +89,7 @@ func (r *GraphRunner) createWriters(wg *sync.WaitGroup, requestId string, graph 
 				reader, writer := io.Pipe()
 				writers = append(writers, writer)
 				wg.Add(1)
-				go r.pushVertexVals(wg, reader, requestId, containerAddr, r.startNodeList[i], graph)
+				go r.pushVertexVals(wg, reader, requestId, containerAddr, r.startNodeList[i], graph, load_mem)
 			}
 		}
 	}
@@ -117,7 +121,7 @@ func (r *GraphRunner) LoadMem(requestId string, key string, param map[string]any
 	activate := common.NewBitmap(int(r.totalNode))
 	wg := &sync.WaitGroup{}
 	wg2 := &sync.WaitGroup{}
-	writers := r.createWriters(wg2, requestId, graph)
+	writers := r.createWriters(wg2, requestId, graph, true)
 	loadMemFunc := func(vertex []int32) {
 		data := make([]uint32, 0, len(vertex)*2+1)
 		data = append(data, uint32(len(vertex)))
@@ -178,7 +182,7 @@ func (r *GraphRunner) gas(requestId string, activeVertex *common.Bitmap, graph *
 	block := int(r.config["CALC_BLOCK"].(float64))
 	l := graph.GetSize()
 	wg := &sync.WaitGroup{}
-	writers := r.createWriters(wg, requestId, graph)
+	writers := r.createWriters(wg, requestId, graph, false)
 	active := make([]int32, 0, block)
 	startNode := graph.GetStartNode()
 	for v := startNode; v < startNode+l; v++ {

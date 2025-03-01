@@ -22,4 +22,4 @@ cd ../../src/graph_coordinator
 sudo docker build -t graph-coordinator .
 echo "==========install python package=========="
 sudo apt install -y python3-pip
-sudo pip3 install gevent pandas
+sudo pip3 install gevent pandas networkit

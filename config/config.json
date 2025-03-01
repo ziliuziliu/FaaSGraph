@@ -1,9 +1,9 @@
 {
-    "CONTROLLER":"172.31.21.57",
+    "CONTROLLER":"172.31.6.79",
     "WORKER":[
-        "172.31.21.57"
+        "172.31.6.79"
     ],
-    "MAX_SLOT_PER_NODE":24,
+    "MAX_SLOT_PER_NODE":48,
     "GRAPH":{
         "amazon-unweighted":{
             "DATA_PATH":"/home/ubuntu/data/amazon-unweighted",
@@ -14,6 +14,12 @@
         "amazon-weighted":{
             "DATA_PATH":"/home/ubuntu/data/amazon-weighted",
             "WEIGHTED":true,
+            "TOTAL_NODE":334863,
+            "PARTITION":2
+        },
+        "amazon-undirected":{
+            "DATA_PATH":"/home/ubuntu/data/amazon-undirected",
+            "WEIGHTED":false,
             "TOTAL_NODE":334863,
             "PARTITION":2
         },
@@ -29,6 +35,12 @@
             "TOTAL_NODE":4847571,
             "PARTITION":2
         },
+        "livejournal-undirected":{
+            "DATA_PATH":"/home/ubuntu/data/livejournal-undirected",
+            "WEIGHTED":false,
+            "TOTAL_NODE":4847571,
+            "PARTITION":2
+        },
         "twitter-unweighted":{
             "DATA_PATH":"/home/ubuntu/data/twitter-unweighted",
             "WEIGHTED":false,
@@ -39,7 +51,13 @@
             "DATA_PATH":"/home/ubuntu/data/twitter-weighted",
             "WEIGHTED":true,
             "TOTAL_NODE":41652230,
-            "PARTITION":16
+            "PARTITION":24
+        },
+        "twitter-undirected":{
+            "DATA_PATH":"/home/ubuntu/data/twitter-undirected",
+            "WEIGHTED":false,
+            "TOTAL_NODE":41652230,
+            "PARTITION":24
         },
         "friendster-unweighted":{
             "DATA_PATH":"/home/ubuntu/data/friendster-unweighted",
@@ -51,7 +69,31 @@
             "DATA_PATH":"/home/ubuntu/data/friendster-weighted",
             "WEIGHTED":true,
             "TOTAL_NODE":65608366,
-            "PARTITION":20
+            "PARTITION":28
+        },
+        "friendster-undirected":{
+            "DATA_PATH":"/home/ubuntu/data/friendster-undirected",
+            "WEIGHTED":false,
+            "TOTAL_NODE":65608366,
+            "PARTITION":28
+        },
+        "rmat27-unweighted":{
+            "DATA_PATH":"/home/ubuntu/data/rmat27-unweighted",
+            "WEIGHTED":false,
+            "TOTAL_NODE":134217728,
+            "PARTITION":18
+        },
+        "rmat27-weighted":{
+            "DATA_PATH":"/home/ubuntu/data/rmat27-weighted",
+            "WEIGHTED":true,
+            "TOTAL_NODE":134217728,
+            "PARTITION":34
+        },
+        "rmat27-undirected":{
+            "DATA_PATH":"/home/ubuntu/data/rmat27-undirected",
+            "WEIGHTED":false,
+            "TOTAL_NODE":134217728,
+            "PARTITION":34
         }
     },
     "APP":[

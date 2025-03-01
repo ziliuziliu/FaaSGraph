@@ -32,7 +32,6 @@ func addEdge(u, v int32, inEdgeList, outEdgeList [][]int32) {
 }
 
 func readOriginalGraph() ([][]int32, [][]int32, []int32, []int32) {
-
 	// degree
 	fmt.Println("======Calculating Degree======")
 	inDegree := make([]int32, totalNode)
@@ -52,6 +51,11 @@ func readOriginalGraph() ([][]int32, [][]int32, []int32, []int32) {
 		}
 		if totalEdge%10000000 == 0 {
 			fmt.Println("current", totalEdge, "edges")
+		}
+		if !directed {
+			inDegree[u]++
+			outDegree[v]++
+			totalEdge++
 		}
 		inDegree[v]++
 		outDegree[u]++
@@ -87,6 +91,7 @@ func readOriginalGraph() ([][]int32, [][]int32, []int32, []int32) {
 		}
 		addEdge(int32(u), int32(v), inEdgeList, outEdgeList)
 		if !directed {
+			totalEdge++
 			addEdge(int32(v), int32(u), inEdgeList, outEdgeList)
 		}
 	}
@@ -182,7 +187,12 @@ func main() {
 	} else {
 		weighted = false
 	}
-	totalNode, _ = strconv.Atoi(os.Args[4])
+	if os.Args[4] == "DIRECTED" {
+		directed = true
+	} else {
+		directed = false
+	}
+	totalNode, _ = strconv.Atoi(os.Args[5])
 	inEdgeList, outEdgeList, inDegree, outDegree := readOriginalGraph()
 	buildGraph(inEdgeList, outEdgeList, inDegree, outDegree)
 }

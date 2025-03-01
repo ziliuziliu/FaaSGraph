@@ -38,7 +38,7 @@ func main() {
 		if line[0] == '#' {
 			continue
 		}
-		line = line[:len(line)-2]
+		line = strings.TrimRight(line, "\r\n")
 		nodes := strings.Split(line, split)
 		u, _ := strconv.Atoi(nodes[0])
 		v, err := strconv.Atoi(nodes[1])
@@ -80,7 +80,7 @@ func main() {
 		if line[0] == '#' {
 			continue
 		}
-		line = line[:len(line)-2]
+		line = strings.TrimRight(line, "\r\n")
 		nodes := strings.Split(line, split)
 		u, _ := strconv.Atoi(nodes[0])
 		v, _ := strconv.Atoi(nodes[1])
