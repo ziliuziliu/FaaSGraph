@@ -51,17 +51,25 @@ def run_faasgraph(dataset, app):
     faas_controller = subprocess.Popen(FAASGRAPH_CONTROLLER_PATH, stdout=subprocess.PIPE)
     local_manager = subprocess.Popen(LOCAL_MANAGER_PATH, stdout=subprocess.PIPE)
     time.sleep(10)
-    if app != 'sssp':
-        ret = subprocess.run([
-            'python3', 
-            APPLICAITON_PATH.format(app), 
-            dataset + '-unweighted'
-        ], stdout=subprocess.PIPE)
-    else:
+    if app == 'sssp':
         ret = subprocess.run([
             'python3', 
             APPLICAITON_PATH.format(app), 
             dataset + '-weighted'
+        ], stdout=subprocess.PIPE)
+    elif app == 'cc':
+        print("cc_in")
+        ret = subprocess.run([
+            'python3', 
+            APPLICAITON_PATH.format(app), 
+            dataset + '-undirected'
+        ], stdout=subprocess.PIPE)
+        print("cc_out")
+    else:
+        ret = subprocess.run([
+            'python3', 
+            APPLICAITON_PATH.format(app), 
+            dataset + '-unweighted'
         ], stdout=subprocess.PIPE)
     result_str: List[str] = ret.stdout.decode('utf-8', 'ignore').splitlines()
     print(result_str)
@@ -91,6 +99,7 @@ def run_faasgraph(dataset, app):
 
 if __name__ == '__main__':
     data = pandas.DataFrame(columns=['dataset', 'framework', 'app', 'end_to_end', 'startup', 'io', 'preprocess', 'query', 'store', 'mem_usage'])
+    # for dataset in ['amazon', 'livejournal', 'twitter', 'friendster', 'rmat27']:
     for dataset in ['amazon', 'livejournal', 'twitter']:
         print('------FaaSGraph on {}------'.format(dataset))
         for app in ['bfs', 'cc', 'pr', 'sssp']:
@@ -108,5 +117,6 @@ if __name__ == '__main__':
                 query.append(q)
                 store.append(st)
                 mem_usage.append(mem)
+                data = pandas.concat([data, pandas.DataFrame({'dataset': [dataset], 'framework': ['FaaSGraph'], 'app': [app], 'end_to_end': [e2e], 'startup': [ss], 'io': [io], 'preprocess': [pre], 'query': [q], 'store': [st], 'mem_usage': [mem]})], ignore_index=True)
             data = pandas.concat([data, pandas.DataFrame({'dataset': dataset, 'framework': 'FaaSGraph', 'app': app, 'end_to_end': numpy.average(end_to_end[1:]), 'startup': numpy.average(startup[1:]), 'io': numpy.average(IO[1:]), 'preprocess': numpy.average(preprocess[1:]), 'query': numpy.average(query[1:]), 'store': numpy.average(store[1:]), 'mem_usage': numpy.average(mem_usage[1:])}, index=[0])], ignore_index=True)
             data.to_csv('result.csv')

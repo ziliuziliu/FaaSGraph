@@ -53,6 +53,11 @@ func readOriginalGraph() ([]int32, []int32) {
 		}
 		inDegree[v]++
 		outDegree[u]++
+		if !directed {
+			totalEdge++
+			inDegree[u]++
+			outDegree[v]++
+		}
 	}
 	originalF.Close()
 	return inDegree, outDegree
@@ -105,8 +110,13 @@ func main() {
 	} else {
 		weighted = false
 	}
-	totalNode, _ = strconv.Atoi(os.Args[4])
-	partition, _ = strconv.Atoi(os.Args[5])
+	if os.Args[4] == "DIRECTED" {
+		directed = true
+	} else {
+		directed = false
+	}
+	totalNode, _ = strconv.Atoi(os.Args[5])
+	partition, _ = strconv.Atoi(os.Args[6])
 	inDegree, outDegree := readOriginalGraph()
 	startNodes := split(inDegree, outDegree)
 	buildSplit(startNodes)

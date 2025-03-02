@@ -114,6 +114,7 @@ func (s *ContainerSet) LoadGraph(ip []string, port []int, cpuSet []string, coord
 		wg.Done()
 	}
 	newCoordinatorContainerFunc := func(ip string, port int) {
+		// s.Coordinator = NewContainer("coordinator", s.r.Graph, dataPath, s.functionInfo.App, s.functionInfo.Function, ip, port, "0-15", s.WorkerIPList, s.ContainerAddrList, s.r.GraphConfig["START_NODES"].([]int32), false)
 		s.Coordinator = NewContainer("coordinator", s.r.Graph, dataPath, s.functionInfo.App, s.functionInfo.Function, ip, port, "0-"+strconv.Itoa(int(common.Config["MAX_SLOT_PER_NODE"].(float64))-1), s.WorkerIPList, s.ContainerAddrList, s.r.GraphConfig["START_NODES"].([]int32), false)
 		wg.Done()
 	}
